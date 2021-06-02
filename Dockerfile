@@ -1,13 +1,17 @@
-FROM python:3.7-slim
+FROM tensorflow/tensorflow:2.4.0-gpu
 
-COPY requirements.txt requirements.txt
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -qq -y git xvfb python-opengl ffmpeg cmake
-RUN pip  install box2d-py
-RUN pip install --upgrade setuptools
-RUN pip install ez_setup
-RUN pip install notebook
-RUN pip install gym[Box_2D] pyvirtualdisplay
-RUN pip install matplotlib
-RUN pip install tensorflow==2.4.0
-RUN pip install keras
+    DEBIAN_FRONTEND=noninteractive apt-get install -qq -y git xvfb ffmpeg cmake xvfb
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -qq -y swig python3.7 python3-pip python-opengl
+
+RUN pip install --upgrade pip
+
+RUN pip --no-cache-dir install --upgrade box2d-py \
+                                         setuptools \
+                                         ez_setup \
+                                         notebook \
+                                         gym[Box_2D] pyvirtualdisplay \
+                                         matplotlib \
+                                         keras
